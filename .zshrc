@@ -20,27 +20,17 @@ export EDITOR=nvim
 # 📁 よく使うコマンドのエイリアス設定
 # ========================
 
-# ls → eza（カラー&tree風表示）
 alias ls='eza'
-
-# cat → bat（シンタックスハイライト付きcat）
 alias cat='bat'
-
-# ll → eza -la（詳細かつ隠しファイル含むリスト）
 alias ll='eza -la'
-
 
 # ========================
 # 🔁 gitのブランチなどをプロンプトに表示
 # ========================
 
-# vcs_info を使って、Gitリポジトリ情報を取得
 autoload -Uz vcs_info
-
-# プロンプトを表示するたびに vcs_info を実行
 precmd() { vcs_info }
 
-# --- 必須 ---
 setopt prompt_subst
 
 get_git_branch() {
@@ -52,7 +42,6 @@ get_git_branch() {
   echo " $branch"
 }
 
-# --- 一つ前のディレクトリと現在のディレクトリを表示 ---
 get_short_path() {
   local full_path="${PWD/#$HOME/~}"  # ホームディレクトリを ~ に
   local IFS="/"                      # 区切り文字を / に
@@ -67,5 +56,13 @@ get_short_path() {
 }
 
 # --- プロンプト設定 ---
-PROMPT='%F{magenta}%B$(get_short_path)%b%f  %F{yellow}$(get_git_branch)%f
-❯ '
+PROMPT='%F{cyan}%B$(get_short_path)%b%f  %F{yellow}$(get_git_branch)%f
+$ '
+
+# pnpm
+export PNPM_HOME="/Users/kenichirokato/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
